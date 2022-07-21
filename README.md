@@ -1,4 +1,4 @@
-[Rick and Morty](https://riackandmorty-jatc.netlify.app)
+[Rick and Morty](https://rickandmorty-jatc.netlify.app)
 
 # Getting Started with Create React App
 
