@@ -43,7 +43,7 @@ function Home() {
     
 }
 function HomeCharacters() {
-    window.location.href = window.location.href + 'characters'
+    alert('characters')
 }
 function HomeEpisodes() {
     alert('episodes')
