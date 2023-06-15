@@ -42,8 +42,7 @@ function useHome() {
         setCurrentPage(page);
         setLoading(false);
       })
-      .catch((error) => {
-        // console.error(error);
+      .catch(() => {
         setResultCards([]);
         setLoading(false);
       });
