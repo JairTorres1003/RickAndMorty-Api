@@ -14,7 +14,7 @@ export const Header = styled.header`
   position: fixed;
   right: 0;
   top: 0;
-  z-index: 1;
+  z-index: 10;
 
   h1.title {
     font-family: "Creepster", cursive;

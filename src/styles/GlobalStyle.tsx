@@ -27,6 +27,18 @@ export const GlobalStyle = createGlobalStyle`
   button { background: transparent; border: 0; outline: 0; }
   a { color: inherit; -webkit-text-stroke: inherit; text-decoration: none; }
 
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  textarea:-webkit-autofill,
+  textarea:-webkit-autofill:hover,
+  textarea:-webkit-autofill:focus,
+  select:-webkit-autofill,
+  select:-webkit-autofill:hover,
+  select:-webkit-autofill:focus {
+    transition: background-color 99999s ease-in-out 0s;
+  }
+
   main {
     min-height: 100vh;
     overscroll-behavior: none;

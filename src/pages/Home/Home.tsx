@@ -1,6 +1,6 @@
 import { Fragment, FunctionComponent } from "react";
 import { DivMain, NoResult } from "./Home.style";
-import useHome from "../../hooks/useHome";
+import { useHome } from "../../hooks/useHome";
 import {
   Box,
   CircularProgress,
@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import CardCharacter from "../../components/Card/CardCharacter";
 import { Link } from "react-router-dom";
-import InputSearch from "../../components/InputSearch/InputSearch";
+import FilterSearch from "../../components/FilterSearch/FilterSearch";
 
 interface HomeProps {}
 
@@ -19,7 +19,7 @@ const Home: FunctionComponent<HomeProps> = () => {
 
   return (
     <DivMain>
-      <InputSearch placeholder="Search name" label="Name" />
+      <FilterSearch placeholder="Search name" label="Name" />
       {loading ? (
         <Box sx={{ display: "flex", justifyContent: "center" }}>
           <CircularProgress />

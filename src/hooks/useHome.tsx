@@ -3,7 +3,7 @@ import { Character, InfoType } from "../interfaces/types";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 
-function useHome() {
+export const useHome = () => {
   const API_URL = "https://rickandmortyapi.com/api/";
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [infoType, setInfoType] = useState<InfoType | null>(null);
@@ -50,11 +50,9 @@ function useHome() {
 
   return {
     currentPage,
-    infoType,
-    resultCards,
-    loading,
     handleSearch,
+    infoType,
+    loading,
+    resultCards,
   };
-}
-
-export default useHome;
+};
