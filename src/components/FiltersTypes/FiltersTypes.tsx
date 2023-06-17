@@ -11,7 +11,7 @@ const FiltersTypes: FunctionComponent<FiltersTypesProps> = () => {
   const { CheckboxFilter } = useFiltersTypes();
 
   return (
-    <Grid container gap={3} sx={customGrid}>
+    <Grid container gap={1} sx={customGrid}>
       <Grid item sm xs={12}>
         <Typography className="title">STATUS</Typography>
         <Divider />

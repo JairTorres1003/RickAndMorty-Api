@@ -1,6 +1,6 @@
 export const customGrid = {
   justifyContent: "center",
-  ".MuiGrid-item": { flexGrow: 0 },
+  ".MuiGrid-item": { flexGrow: 0, maxWidth: 150 },
   ".MuiTypography-root.title": { fontSize: 13 },
   ".MuiDivider-root": { mt: "2px" },
   ".MuiListItem-root": { p: "0 16px", height: 22 },
