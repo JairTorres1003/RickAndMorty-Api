@@ -14,22 +14,31 @@ export const useFilterSearch = () => {
   }, [location.search]);
 
   /**
-   * Updates the search value and navigates to the corresponding URL.
+   * Updates the search value only if the first character is not a whitespace.
    * @param searchValue The new search value.
    */
   function handleChangeValue(searchValue: string) {
     if (searchValue.charAt(0) !== " ") {
-      const query = new URLSearchParams(location.search);
-      query.delete("page");
-      query.set("name", searchValue);
-      navigate(searchValue.trim() !== "" ? `?${query.toString()}` : "/");
+      setValue(searchValue);
     }
+  }
+
+  /**
+   * Submits the query by updating the URL search parameters based on the current search value.
+   * If the search value is empty or contains only whitespace, it navigates to the homepage ("/").
+   */
+  function submitQuery() {
+    const query = new URLSearchParams(location.search);
+    query.delete("page");
+    query.set("name", value);
+    navigate(value.trim() !== "" ? `?${query.toString()}` : "/");
   }
 
   return {
     handleChangeValue,
     isExpanded,
     setIsExpanded,
+    submitQuery,
     value,
   };
 };

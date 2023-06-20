@@ -1,5 +1,5 @@
 import { Checkbox, FormControlLabel } from "@mui/material";
-import { FunctionComponent, useEffect, useState } from "react";
+import { ChangeEvent, FunctionComponent, useEffect, useState } from "react";
 import { FiCheck } from "react-icons/fi";
 import { VscBlank } from "react-icons/vsc";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -8,11 +8,11 @@ interface FilterTypes {
   /**
    * The status filter value. It can be one of the following: "alive", "dead", "unknown", or null.
    */
-  status: "alive" | "dead" | "unknown" | null | String;
+  status: "alive" | "dead" | "unknown" | null;
   /**
    * The gender filter value. It can be one of the following: "female", "male", "genderless", "unknown", or null.
    */
-  gender: "female" | "male" | "genderless" | "unknown" | null | String;
+  gender: "female" | "male" | "genderless" | "unknown" | null;
 }
 
 interface CheckboxFilterProps {
@@ -39,8 +39,8 @@ export const useFiltersTypes = () => {
     const query = new URLSearchParams(location.search);
 
     setIsChecked({
-      status: query.get("status") || null,
-      gender: query.get("gender") || null,
+      status: (query.get("status") as FilterTypes["status"]) || null,
+      gender: (query.get("gender") as FilterTypes["gender"]) || null,
     });
   }, [location.search]);
 
@@ -49,7 +49,10 @@ export const useFiltersTypes = () => {
    * @param event The event object.
    * @param filter The type of filter, either "status" or "gender".
    */
-  function handleCheckedLocation(event: any, filter: "status" | "gender") {
+  function handleCheckedLocation(
+    event: ChangeEvent<HTMLInputElement>,
+    filter: "status" | "gender"
+  ) {
     let active = event.target.name;
 
     const query = new URLSearchParams(location.search);
@@ -57,7 +60,7 @@ export const useFiltersTypes = () => {
 
     if (active === isChecked[filter]) {
       // If the active value is the same as the current filter value, remove the filter from the query
-      active = null;
+      active = "";
       query.delete(filter);
     } else {
       // If the active value is different, set the filter value in the query

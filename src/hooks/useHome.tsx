@@ -50,7 +50,6 @@ export const useHome = () => {
 
   return {
     currentPage,
-    handleSearch,
     infoType,
     loading,
     resultCards,

@@ -5,9 +5,7 @@ import { useFiltersTypes } from "../../hooks/useFiltersTypes";
 import { Divider } from "@mui/joy";
 import { customGrid } from "./FiltersTypes.style";
 
-interface FiltersTypesProps {}
-
-const FiltersTypes: FunctionComponent<FiltersTypesProps> = () => {
+const FiltersTypes: FunctionComponent = () => {
   const { CheckboxFilter } = useFiltersTypes();
 
   return (

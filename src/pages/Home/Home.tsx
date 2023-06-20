@@ -12,9 +12,7 @@ import CardCharacter from "../../components/Card/CardCharacter";
 import { Link } from "react-router-dom";
 import FilterSearch from "../../components/FilterSearch/FilterSearch";
 
-interface HomeProps {}
-
-const Home: FunctionComponent<HomeProps> = () => {
+const Home: FunctionComponent = () => {
   const { currentPage, infoType, loading, resultCards } = useHome();
 
   return (
@@ -57,9 +55,10 @@ const Home: FunctionComponent<HomeProps> = () => {
               shape="rounded"
               page={currentPage}
               renderItem={(item) => {
-                let page = `/${item.page === 1 ? "" : `?page=${item.page}`}`;
-                let symb = item.page === 1 ? "?" : "&";
-                let q = infoType?.search !== "" ? symb + infoType?.search : "";
+                const page = `/${item.page === 1 ? "" : `?page=${item.page}`}`;
+                const symb = item.page === 1 ? "?" : "&";
+                const q =
+                  infoType?.search !== "" ? symb + infoType?.search : "";
 
                 return (
                   <PaginationItem

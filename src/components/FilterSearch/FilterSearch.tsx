@@ -12,7 +12,7 @@ import { VscFilter } from "react-icons/vsc";
 import { customAcordion, customTextField } from "./FilterSearch.style";
 import FiltersTypes from "../FiltersTypes/FiltersTypes";
 import { useFilterSearch } from "../../hooks/useFilterSearch";
-import { Divider } from "@mui/joy";
+import { Divider, Tooltip } from "@mui/joy";
 
 interface FilterSearchProps {
   /**
@@ -29,7 +29,7 @@ const FilterSearch: FunctionComponent<FilterSearchProps> = ({
   label,
   placeholder = "Search",
 }) => {
-  const { handleChangeValue, isExpanded, setIsExpanded, value } =
+  const { handleChangeValue, isExpanded, setIsExpanded, submitQuery, value } =
     useFilterSearch();
 
   return (
@@ -42,11 +42,14 @@ const FilterSearch: FunctionComponent<FilterSearchProps> = ({
         fullWidth
         value={value}
         onChange={(e) => handleChangeValue(e.target.value)}
+        onKeyUp={(e) => e.key === "Enter" && submitQuery()}
         InputProps={{
           endAdornment: (
-            <IconButton onClick={() => setIsExpanded(!isExpanded)}>
-              <VscFilter />
-            </IconButton>
+            <Tooltip arrow title="Open search filters">
+              <IconButton onClick={() => setIsExpanded(!isExpanded)}>
+                <VscFilter />
+              </IconButton>
+            </Tooltip>
           ),
         }}
       />
