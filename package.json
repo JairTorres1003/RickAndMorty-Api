@@ -1,8 +1,23 @@
 {
   "name": "rickandmorty-api",
+  "description": "rickandmorty-api",
+  "keywords": [
+    "Api",
+    "RickAndMorty"
+  ],
   "private": true,
-  "version": "0.0.0",
+  "license": "ISC",
+  "version": "1.0.0",
+  "author": "Jair Torres",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JairTorres1003/RickAndMorty-Api.git"
+  },
+  "bugs": {
+    "url": "https://github.com/JairTorres1003/RickAndMorty-Api/issues"
+  },
+  "homepage": "https://github.com/JairTorres1003/RickAndMorty-Api#readme",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
