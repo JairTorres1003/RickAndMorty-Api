@@ -29,9 +29,14 @@ export const useFilterSearch = () => {
    */
   function submitQuery() {
     const query = new URLSearchParams(location.search);
+    const newValue = (value || "")
+      .toLowerCase()
+      .trim()
+      .replace(/\s{2,}/g, " ");
+
     query.delete("page");
-    query.set("name", value);
-    navigate(value.trim() !== "" ? `?${query.toString()}` : "/");
+    query.set("name", newValue);
+    navigate(newValue !== "" ? `?${query.toString()}` : "/");
   }
 
   return {

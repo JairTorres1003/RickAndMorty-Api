@@ -54,6 +54,16 @@ const Home: FunctionComponent = () => {
               variant="outlined"
               shape="rounded"
               page={currentPage}
+              sx={{
+                ".MuiPaginationItem-root": {
+                  color: "rgb(255 255 255 / 80%)",
+                  borderColor: "rgb(255 255 255 / 30%)",
+                  "&.Mui-selected": {
+                    color: "rgb(25 118, 210)",
+                    borderColor: "rgb(25 118 210 / 50%)",
+                  },
+                },
+              }}
               renderItem={(item) => {
                 const page = `/${item.page === 1 ? "" : `?page=${item.page}`}`;
                 const symb = item.page === 1 ? "?" : "&";

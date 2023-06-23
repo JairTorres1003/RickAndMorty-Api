@@ -37,6 +37,8 @@ export const GlobalStyle = createGlobalStyle`
   select:-webkit-autofill:hover,
   select:-webkit-autofill:focus {
     transition: background-color 99999s ease-in-out 0s;
+    -webkit-text-fill-color: inherit !important;
+    caret-color: inherit !important;
   }
 
   main {

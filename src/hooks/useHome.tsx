@@ -40,12 +40,9 @@ export const useHome = () => {
         setInfoType({ ...response.info, search });
         setResultCards([...response.results]);
         setCurrentPage(page);
-        setLoading(false);
       })
-      .catch(() => {
-        setResultCards([]);
-        setLoading(false);
-      });
+      .catch(() => setResultCards([]))
+      .finally(() => setLoading(false));
   };
 
   return {

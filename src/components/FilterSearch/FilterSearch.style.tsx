@@ -1,6 +1,8 @@
 export const customTextField = {
   maxWidth: 800,
   fieldset: { borderColor: "rgb(255 255 255 / 50%)" },
+  WebkitTextFillColor: "rgb(255 255 255)",
+  caretColor: "rgb(255 255 255)",
   ".MuiButtonBase-root": { color: "rgb(255 255 255 / 50%)" },
   ".MuiInputBase-root": { color: "rgb(255 255 255)" },
   ":hover": {
