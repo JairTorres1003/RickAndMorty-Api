@@ -1,18 +1,21 @@
 import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
+  Autocomplete,
   Box,
   IconButton,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
   TextField,
-  Typography,
 } from "@mui/material";
 import { FunctionComponent, ReactNode } from "react";
-import { VscFilter } from "react-icons/vsc";
-import { customAcordion, customTextField } from "./FilterSearch.style";
-import FiltersTypes from "../FiltersTypes/FiltersTypes";
+import { IoSearchOutline } from "react-icons/io5";
+import {
+  customBox,
+  customListItem,
+  customTextField,
+} from "./FilterSearch.style";
 import { useFilterSearch } from "../../hooks/useFilterSearch";
-import { Divider, Tooltip } from "@mui/joy";
+import { Tooltip } from "@mui/joy";
 
 interface FilterSearchProps {
   /**
@@ -29,31 +32,73 @@ const FilterSearch: FunctionComponent<FilterSearchProps> = ({
   label,
   placeholder = "Search",
 }) => {
-  const { handleChangeValue, isExpanded, setIsExpanded, submitQuery, value } =
-    useFilterSearch();
+  const {
+    handleChangeValue,
+    handleSelected,
+    isOpen,
+    options,
+    optionSelected,
+    setIsOpen,
+    submitQuery,
+    value,
+  } = useFilterSearch();
 
   return (
-    <Box sx={{ width: "100%" }}>
-      <TextField
-        label={label}
-        placeholder={placeholder}
-        type="search"
-        sx={customTextField}
+    <Box sx={customBox}>
+      <Autocomplete
+        sx={{ maxWidth: 800 }}
         fullWidth
-        value={value}
-        onChange={(e) => handleChangeValue(e.target.value)}
-        onKeyUp={(e) => e.key === "Enter" && submitQuery()}
-        InputProps={{
-          endAdornment: (
-            <Tooltip arrow title="Open search filters">
-              <IconButton onClick={() => setIsExpanded(!isExpanded)}>
-                <VscFilter />
-              </IconButton>
-            </Tooltip>
-          ),
-        }}
+        blurOnSelect
+        size="small"
+        open={isOpen}
+        options={[{ name: value }, ...options]}
+        disablePortal
+        slotProps={{ paper: { elevation: 3 }, popper: { sx: { zIndex: 5 } } }}
+        getOptionLabel={(option) => option.name}
+        value={optionSelected}
+        onChange={(_, option) => handleSelected(option)}
+        inputValue={value}
+        limitTags={7}
+        getLimitTagsText={(more) => `charter+${more}`}
+        onInputChange={(_, inputValue) => handleChangeValue(inputValue)}
+        onBlur={() => setIsOpen(false)}
+        onFocus={() => setIsOpen(value.length > 0)}
+        renderOption={(props, option) => (
+          <ListItem {...props} dense sx={customListItem}>
+            <ListItemIcon sx={{ minWidth: 32 }}>
+              <IoSearchOutline size={16} />
+            </ListItemIcon>
+            <ListItemText primary={option.name} sx={{ m: 0 }} />
+          </ListItem>
+        )}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            label={label}
+            placeholder={placeholder}
+            type="search"
+            sx={customTextField}
+            size="small"
+            onKeyUp={(e) => {
+              if (e.key === "Enter") {
+                e.target.blur();
+                submitQuery(value);
+              }
+            }}
+            InputProps={{
+              ...params.InputProps,
+              endAdornment: (
+                <Tooltip arrow title="Search">
+                  <IconButton size="small" onClick={() => submitQuery(value)}>
+                    <IoSearchOutline />
+                  </IconButton>
+                </Tooltip>
+              ),
+            }}
+          />
+        )}
       />
-      <Accordion expanded={isExpanded} sx={customAcordion} elevation={0}>
+      {/* <Accordion expanded={isExpanded} sx={customAcordion} elevation={0}>
         <AccordionSummary></AccordionSummary>
         <AccordionDetails>
           <Box>
@@ -62,7 +107,7 @@ const FilterSearch: FunctionComponent<FilterSearchProps> = ({
           <Divider sx={{ m: "8px 0" }} />
           <FiltersTypes />
         </AccordionDetails>
-      </Accordion>
+      </Accordion> */}
     </Box>
   );
 };
