@@ -1,12 +1,4 @@
-import {
-  Autocomplete,
-  Box,
-  IconButton,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  TextField,
-} from "@mui/material";
+import { Autocomplete, Box, IconButton, TextField } from "@mui/material";
 import { FunctionComponent, ReactNode } from "react";
 import { IoSearchOutline } from "react-icons/io5";
 import {
@@ -16,6 +8,8 @@ import {
 } from "./FilterSearch.style";
 import { useFilterSearch } from "../../hooks/useFilterSearch";
 import { Tooltip } from "@mui/joy";
+import { useVirtualiceAutocomplete } from "../../hooks/useVirtualiceAutocomplete";
+import { chartersNameList } from "../../chartersNameList";
 
 interface FilterSearchProps {
   /**
@@ -34,6 +28,7 @@ const FilterSearch: FunctionComponent<FilterSearchProps> = ({
 }) => {
   const {
     handleChangeValue,
+    handleFilterOptions,
     handleSelected,
     isOpen,
     options,
@@ -43,34 +38,34 @@ const FilterSearch: FunctionComponent<FilterSearchProps> = ({
     value,
   } = useFilterSearch();
 
+  const { ListboxComponent, StyledPopper } = useVirtualiceAutocomplete({
+    styleProp: customListItem,
+  });
+
   return (
     <Box sx={customBox}>
       <Autocomplete
-        sx={{ maxWidth: 800 }}
+        freeSolo
         fullWidth
-        blurOnSelect
         size="small"
+        blurOnSelect
         open={isOpen}
-        options={[{ name: value }, ...options]}
-        disablePortal
-        slotProps={{ paper: { elevation: 3 }, popper: { sx: { zIndex: 5 } } }}
-        getOptionLabel={(option) => option.name}
-        value={optionSelected}
-        onChange={(_, option) => handleSelected(option)}
+        disableListWrap
         inputValue={value}
-        limitTags={7}
-        getLimitTagsText={(more) => `charter+${more}`}
-        onInputChange={(_, inputValue) => handleChangeValue(inputValue)}
+        sx={{ maxWidth: 800 }}
+        value={optionSelected}
+        PopperComponent={StyledPopper}
         onBlur={() => setIsOpen(false)}
+        ListboxComponent={ListboxComponent}
+        filterOptions={handleFilterOptions}
+        options={options || chartersNameList}
         onFocus={() => setIsOpen(value.length > 0)}
-        renderOption={(props, option) => (
-          <ListItem {...props} dense sx={customListItem}>
-            <ListItemIcon sx={{ minWidth: 32 }}>
-              <IoSearchOutline size={16} />
-            </ListItemIcon>
-            <ListItemText primary={option.name} sx={{ m: 0 }} />
-          </ListItem>
-        )}
+        onChange={(_, option) => handleSelected(option)}
+        onInputChange={(_, inputValue) => handleChangeValue(inputValue)}
+        slotProps={{ paper: { elevation: 3 }, popper: { sx: { zIndex: 5 } } }}
+        renderOption={(props, option, state) =>
+          [props, option, state.index] as React.ReactNode
+        }
         renderInput={(params) => (
           <TextField
             {...params}
@@ -78,13 +73,6 @@ const FilterSearch: FunctionComponent<FilterSearchProps> = ({
             placeholder={placeholder}
             type="search"
             sx={customTextField}
-            size="small"
-            onKeyUp={(e) => {
-              if (e.key === "Enter") {
-                (e.target as HTMLInputElement).blur();
-                submitQuery(value);
-              }
-            }}
             InputProps={{
               ...params.InputProps,
               endAdornment: (
@@ -98,6 +86,7 @@ const FilterSearch: FunctionComponent<FilterSearchProps> = ({
           />
         )}
       />
+
       {/* <Accordion expanded={isExpanded} sx={customAcordion} elevation={0}>
         <AccordionSummary></AccordionSummary>
         <AccordionDetails>

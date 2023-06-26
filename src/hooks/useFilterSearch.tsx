@@ -1,58 +1,74 @@
-import axios from "axios";
+import { FilterOptionsState, createFilterOptions } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-
-interface optionsData {
-  name: string;
-}
+import { chartersNameList } from "../chartersNameList";
 
 export const useFilterSearch = () => {
-  const API_URL = "https://rickandmortyapi.com/api/";
-
   const [value, setValue] = useState<string>("");
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
-  const [optionSelected, setOptionSelected] = useState<optionsData | null>(
-    null
-  );
-  const [options, setOptions] = useState<optionsData[]>([]);
+  const [optionSelected, setOptionSelected] = useState<string | null>(null);
+  const [options, setOptions] = useState<string[] | null>(null);
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const location = useLocation();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const query = new URLSearchParams(location.search);
-    let name = query.get("name");
+  const filterOptions = createFilterOptions<string>({
+    matchFrom: "start",
+    stringify: (option) => option,
+  });
 
-    if (options[0]?.name.toLowerCase() === name) {
-      name = options[0]?.name;
-      setOptions(options.slice(1));
+  /**
+   * Handles the filtering of options based on the input value and filter options state.
+   * @param options - The list of options to filter.
+   * @param params - The filter options state.
+   * @returns The filtered options.
+   */
+  const handleFilterOptions = (
+    options: string[],
+    params: FilterOptionsState<string>
+  ): string[] => {
+    const filtered = filterOptions(options, params);
+    const { inputValue } = params;
+    const isExisting = options.some(
+      (option) =>
+        inputValue.trim().toLowerCase() === option.trim().toLowerCase()
+    );
+
+    if (inputValue !== "" && !isExisting) {
+      filtered.unshift(inputValue);
     }
 
-    setValue(name || "");
+    return filtered.slice(0, 7);
+  };
+
+  useEffect(() => {
+    const query = new URLSearchParams(location.search);
+    const queryName = (query.get("name") || "").replace(/\s{2,}/g, " ");
+
+    if (queryName === "") {
+      setOptions(null);
+    } else {
+      const inputValue = value !== "" ? value : queryName;
+      const newOptions = handleFilterOptions(chartersNameList, {
+        ...({ inputValue } as FilterOptionsState<string>),
+      });
+      setOptions(newOptions);
+      setValue(newOptions[0]);
+    }
     setIsOpen(false);
-    setOptionSelected(name ? { name } : null);
   }, [location.search]);
 
   /**
    * Updates the search value only if the first character is not a whitespace.
-   * @param searchValue The new search value.
+   * @param searchValue - The new search value.
    */
   function handleChangeValue(searchValue: string) {
     if (searchValue.charAt(0) !== " ") {
       const newValue = (searchValue || "").replace(/\s{2,}/g, " ");
 
-      setValue(searchValue);
+      setValue(newValue);
       setIsOpen(newValue.length > 0);
-      setOptionSelected({ name: newValue });
-
-      axios
-        .get(`${API_URL}character/?name=${newValue.trim().toLowerCase()}`)
-        .then((res) => res.data)
-        .then((response) => {
-          setOptions([...response.results]);
-        })
-        .catch(() => setOptions([]));
     }
   }
 
@@ -60,17 +76,17 @@ export const useFilterSearch = () => {
    * Handles the selection of an option.
    * @param option - The selected option.
    */
-  function handleSelected(option: optionsData | null) {
+  function handleSelected(option: string | null) {
     setOptionSelected(option);
     if (option) {
-      submitQuery(option?.name);
+      submitQuery(option);
     }
   }
 
   /**
    * Submits the query by updating the URL search parameters based on the current search value.
    * If the search value is empty or contains only whitespace, the function does not perform any action.
-   * @param val The search value to be submitted.
+   * @param val - The search value to be submitted.
    */
   function submitQuery(val: string) {
     const query = new URLSearchParams(location.search);
@@ -90,6 +106,7 @@ export const useFilterSearch = () => {
 
   return {
     handleChangeValue,
+    handleFilterOptions,
     handleSelected,
     isExpanded,
     isOpen,
