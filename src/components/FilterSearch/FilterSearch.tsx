@@ -81,7 +81,7 @@ const FilterSearch: FunctionComponent<FilterSearchProps> = ({
             size="small"
             onKeyUp={(e) => {
               if (e.key === "Enter") {
-                e.target.blur();
+                (e.target as HTMLInputElement).blur();
                 submitQuery(value);
               }
             }}
