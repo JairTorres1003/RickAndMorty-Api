@@ -3,6 +3,7 @@ import { FunctionComponent, ReactNode } from "react";
 import { IoSearchOutline } from "react-icons/io5";
 import {
   customBox,
+  customBoxAdornment,
   customListItem,
   customTextField,
 } from "./FilterSearch.style";
@@ -31,7 +32,7 @@ const FilterSearch: FunctionComponent<FilterSearchProps> = ({
     handleFilterOptions,
     handleSelected,
     isOpen,
-    options,
+    optionsList,
     optionSelected,
     setIsOpen,
     submitQuery,
@@ -58,7 +59,7 @@ const FilterSearch: FunctionComponent<FilterSearchProps> = ({
         onBlur={() => setIsOpen(false)}
         ListboxComponent={ListboxComponent}
         filterOptions={handleFilterOptions}
-        options={options || chartersNameList}
+        options={optionsList || chartersNameList}
         onFocus={() => setIsOpen(value.length > 0)}
         onChange={(_, option) => handleSelected(option)}
         onInputChange={(_, inputValue) => handleChangeValue(inputValue)}
@@ -76,11 +77,14 @@ const FilterSearch: FunctionComponent<FilterSearchProps> = ({
             InputProps={{
               ...params.InputProps,
               endAdornment: (
-                <Tooltip arrow title="Search">
-                  <IconButton size="small" onClick={() => submitQuery(value)}>
-                    <IoSearchOutline />
-                  </IconButton>
-                </Tooltip>
+                <Box sx={customBoxAdornment}>
+                  {params.InputProps.endAdornment}
+                  <Tooltip arrow title="Search">
+                    <IconButton size="small" onClick={() => submitQuery(value)}>
+                      <IoSearchOutline />
+                    </IconButton>
+                  </Tooltip>
+                </Box>
               ),
             }}
           />

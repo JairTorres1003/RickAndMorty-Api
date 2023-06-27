@@ -5,8 +5,6 @@ import {
   Popper,
   autocompleteClasses,
   styled,
-  useMediaQuery,
-  useTheme,
 } from "@mui/material";
 import React, {
   CSSProperties,
@@ -113,12 +111,8 @@ export const useVirtualiceAutocomplete = ({
       }
     );
 
-    const theme = useTheme();
-    const smUp = useMediaQuery(theme.breakpoints.up("sm"), {
-      noSsr: true,
-    });
     const itemCount = itemData.length;
-    const itemSize = smUp ? 36 : 48;
+    const itemSize = 36;
 
     /**
      * Gets the size of a child item in the virtualized list.

@@ -5,6 +5,18 @@ export const customBox = {
   alignItems: "center",
 };
 
+export const customBoxAdornment = {
+  position: "relative",
+  display: "flex",
+  "& > .MuiAutocomplete-endAdornment": {
+    position: "relative",
+    left: 0,
+    right: 0,
+    bottom: 0,
+    top: 0,
+  },
+};
+
 export const customTextField = {
   maxWidth: 800,
   caretColor: "rgb(255 255 255)",
@@ -28,7 +40,10 @@ export const customTextField = {
     },
   },
   ":hover": {
-    ".MuiFormLabel-root": { color: "rgb(255 255 255)" },
+    ".MuiFormLabel-root": {
+      color: "rgb(255 255 255)",
+      WebkitTextFillColor: "rgb(255 255 255)",
+    },
     ".MuiFormLabel-root.Mui-focused": {
       color: "#1976d2",
       WebkitTextFillColor: "#1976d2",

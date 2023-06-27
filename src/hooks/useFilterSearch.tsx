@@ -7,7 +7,7 @@ export const useFilterSearch = () => {
   const [value, setValue] = useState<string>("");
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
   const [optionSelected, setOptionSelected] = useState<string | null>(null);
-  const [options, setOptions] = useState<string[] | null>(null);
+  const [optionsList, setOptionsList] = useState<string[] | null>(null);
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const location = useLocation();
@@ -28,8 +28,11 @@ export const useFilterSearch = () => {
     options: string[],
     params: FilterOptionsState<string>
   ): string[] => {
+    const visibleOptions = 7;
+    let inputValue = params.inputValue !== "" ? params.inputValue : value;
+    params.inputValue = inputValue;
+
     const filtered = filterOptions(options, params);
-    const { inputValue } = params;
     const isExisting = options.some(
       (option) =>
         inputValue.trim().toLowerCase() === option.trim().toLowerCase()
@@ -39,7 +42,7 @@ export const useFilterSearch = () => {
       filtered.unshift(inputValue);
     }
 
-    return filtered.slice(0, 7);
+    return filtered.slice(0, visibleOptions);
   };
 
   useEffect(() => {
@@ -47,13 +50,13 @@ export const useFilterSearch = () => {
     const queryName = (query.get("name") || "").replace(/\s{2,}/g, " ");
 
     if (queryName === "") {
-      setOptions(null);
+      setOptionsList(null);
     } else {
       const inputValue = value !== "" ? value : queryName;
       const newOptions = handleFilterOptions(chartersNameList, {
         ...({ inputValue } as FilterOptionsState<string>),
       });
-      setOptions(newOptions);
+      // setOptionsList(newOptions);
       setValue(newOptions[0]);
     }
     setIsOpen(false);
@@ -110,7 +113,7 @@ export const useFilterSearch = () => {
     handleSelected,
     isExpanded,
     isOpen,
-    options,
+    optionsList,
     optionSelected,
     setIsExpanded,
     setIsOpen,
