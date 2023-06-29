@@ -30,7 +30,7 @@ const CardCharacter: FunctionComponent<CardCharacterProps> = ({
         sx={{ padding: "16px 6px" }}
       />
       <CardMedia image={character.image} component="img" />
-      <CardContent sx={{ padding: "16px 6px", maxWidth: 250 }}>
+      <CardContent sx={{ padding: "16px 6px" }}>
         <Grid
           container
           gap={1}

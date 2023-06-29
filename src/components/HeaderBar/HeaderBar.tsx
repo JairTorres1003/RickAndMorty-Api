@@ -1,6 +1,7 @@
 import { FunctionComponent } from "react";
-import { Header } from "./HeaderBar.style";
+import { Header, HiddenSpace } from "./HeaderBar.style";
 import { Link } from "react-router-dom";
+import FilterSearch from "../FilterSearch/FilterSearch";
 
 interface HeaderBarProps {
   /**
@@ -18,6 +19,8 @@ const HeaderBar: FunctionComponent<HeaderBarProps> = ({
       <h1 className="title">
         <Link to="/">{title}</Link>
       </h1>
+      <FilterSearch placeholder="Search name" label="Name" />
+      <HiddenSpace titlePage={title} />
     </Header>
   );
 };

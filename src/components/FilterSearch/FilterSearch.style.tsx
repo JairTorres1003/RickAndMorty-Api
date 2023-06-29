@@ -3,6 +3,21 @@ export const customBox = {
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
+  position: "relative",
+
+  "@media screen and (max-width: 500px)": {
+    position: "initial",
+  },
+};
+
+export const customPopper = {
+  zIndex: 15,
+  maxWidth: 800,
+  width: "100% !important",
+  "@media screen and (max-width: 500px)": {
+    width: "calc(100% - 40px) !important",
+    left: "-20px !important",
+  },
 };
 
 export const customBoxAdornment = {

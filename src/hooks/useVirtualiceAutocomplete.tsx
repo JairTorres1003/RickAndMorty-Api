@@ -40,7 +40,12 @@ export const useVirtualiceAutocomplete = ({
    */
   function renderRow(props: ListChildComponentProps) {
     const { data, index, style } = props;
-    const dataSet = data[index];
+    const cutSlice = data[0][1].length;
+    const dataSet = {
+      prop: data[index][0],
+      prev: data[index][1]?.slice(0, cutSlice),
+      next: data[index][1]?.slice(cutSlice),
+    };
     const inlineStyle: CSSProperties = {
       ...style,
       top: (style.top as number) + LISTBOX_PADDING,
@@ -48,11 +53,14 @@ export const useVirtualiceAutocomplete = ({
     };
 
     return (
-      <ListItem {...dataSet[0]} dense sx={inlineStyle}>
+      <ListItem {...dataSet.prop} dense sx={inlineStyle}>
         <ListItemIcon sx={{ minWidth: 32 }}>
           <IoSearchOutline size={16} />
         </ListItemIcon>
-        <ListItemText primary={dataSet[1]} sx={{ m: 0 }} />
+        <ListItemText sx={{ m: 0 }}>
+          {dataSet.prev}
+          {dataSet.next !== "" && <b>{dataSet.next}</b>}
+        </ListItemText>
       </ListItem>
     );
   }

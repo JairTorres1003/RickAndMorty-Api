@@ -2,6 +2,7 @@ import { Autocomplete, Box, IconButton, TextField } from "@mui/material";
 import { FunctionComponent, ReactNode } from "react";
 import { IoSearchOutline } from "react-icons/io5";
 import {
+  customPopper,
   customBox,
   customBoxAdornment,
   customListItem,
@@ -51,6 +52,7 @@ const FilterSearch: FunctionComponent<FilterSearchProps> = ({
         size="small"
         blurOnSelect
         open={isOpen}
+        disablePortal
         disableListWrap
         inputValue={value}
         sx={{ maxWidth: 800 }}
@@ -63,17 +65,17 @@ const FilterSearch: FunctionComponent<FilterSearchProps> = ({
         onFocus={() => setIsOpen(value.length > 0)}
         onChange={(_, option) => handleSelected(option)}
         onInputChange={(_, inputValue) => handleChangeValue(inputValue)}
-        slotProps={{ paper: { elevation: 3 }, popper: { sx: { zIndex: 5 } } }}
+        slotProps={{ paper: { elevation: 3 }, popper: { sx: customPopper } }}
         renderOption={(props, option, state) =>
           [props, option, state.index] as React.ReactNode
         }
         renderInput={(params) => (
           <TextField
             {...params}
-            label={label}
-            placeholder={placeholder}
             type="search"
+            label={label}
             sx={customTextField}
+            placeholder={placeholder}
             InputProps={{
               ...params.InputProps,
               endAdornment: (

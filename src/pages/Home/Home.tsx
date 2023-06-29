@@ -10,14 +10,12 @@ import {
 } from "@mui/material";
 import CardCharacter from "../../components/Card/CardCharacter";
 import { Link } from "react-router-dom";
-import FilterSearch from "../../components/FilterSearch/FilterSearch";
 
 const Home: FunctionComponent = () => {
   const { currentPage, infoType, loading, resultCards } = useHome();
 
   return (
     <DivMain>
-      <FilterSearch placeholder="Search name" label="Name" />
       {loading ? (
         <Box sx={{ display: "flex", justifyContent: "center" }}>
           <CircularProgress />
