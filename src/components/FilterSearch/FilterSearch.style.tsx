@@ -76,11 +76,3 @@ export const customListItem = {
   p: "3px 16px !important",
   "&:hover, &.Mui-focused": { bgcolor: "rgb(25 118 210 / 20%) !important" },
 };
-
-export const customAcordion = {
-  bgcolor: "transparent",
-  "::before": { display: "none" },
-  ".MuiAccordionSummary-root": { minHeight: "0 !important", height: 0 },
-  ".MuiAccordionDetails-root": { color: "rgb(255 255 255 / 50%)" },
-  ".MuiFormControlLabel-root .MuiTypography-root": { fontSize: 13 },
-};

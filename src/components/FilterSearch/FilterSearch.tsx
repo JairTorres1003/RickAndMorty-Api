@@ -92,17 +92,6 @@ const FilterSearch: FunctionComponent<FilterSearchProps> = ({
           />
         )}
       />
-
-      {/* <Accordion expanded={isExpanded} sx={customAcordion} elevation={0}>
-        <AccordionSummary></AccordionSummary>
-        <AccordionDetails>
-          <Box>
-            <Typography sx={{ fontSize: 13 }}>FILTERS</Typography>
-          </Box>
-          <Divider sx={{ m: "8px 0" }} />
-          <FiltersTypes />
-        </AccordionDetails>
-      </Accordion> */}
     </Box>
   );
 };
