@@ -27,6 +27,7 @@ interface CheckboxFilterProps {
 }
 
 export const useFiltersTypes = () => {
+  const [isExpanded, setIsExpanded] = useState<boolean>(false);
   const [isChecked, setIsChecked] = useState<FilterTypes>({
     status: null,
     gender: null,
@@ -100,5 +101,7 @@ export const useFiltersTypes = () => {
 
   return {
     CheckboxFilter,
+    isExpanded, 
+    setIsExpanded,
   };
 };
