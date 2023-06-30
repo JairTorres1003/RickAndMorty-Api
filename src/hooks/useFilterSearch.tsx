@@ -5,7 +5,6 @@ import { chartersNameList } from "../chartersNameList";
 
 export const useFilterSearch = () => {
   const [value, setValue] = useState<string>("");
-  const [isExpanded, setIsExpanded] = useState<boolean>(false);
   const [optionSelected, setOptionSelected] = useState<string | null>(null);
   const [optionsList, setOptionsList] = useState<string[] | null>(null);
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -29,7 +28,7 @@ export const useFilterSearch = () => {
     params: FilterOptionsState<string>
   ): string[] => {
     const visibleOptions = 7;
-    let inputValue = params.inputValue !== "" ? params.inputValue : value;
+    const inputValue = params.inputValue !== "" ? params.inputValue : value;
     params.inputValue = inputValue;
 
     const filtered = filterOptions(options, params);
@@ -111,11 +110,9 @@ export const useFilterSearch = () => {
     handleChangeValue,
     handleFilterOptions,
     handleSelected,
-    isExpanded,
     isOpen,
     optionsList,
     optionSelected,
-    setIsExpanded,
     setIsOpen,
     submitQuery,
     value,
