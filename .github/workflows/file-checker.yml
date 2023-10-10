@@ -18,10 +18,9 @@ jobs:
     - name: Find console.log
       run: |
         # Find console.log statements in TypeScript and TypeScript React files
-        if grep -r 'console\.log' ./*.ts*; then
+        if find . -name '*.ts' -o -name '*.tsx' -exec grep -q 'console\.log' {} \; ; then
           echo "console.log statements found"
           exit 1
         else
           echo "No console.log statements found"
         fi
-        
