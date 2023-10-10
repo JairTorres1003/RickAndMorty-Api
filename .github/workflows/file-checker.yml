@@ -1,0 +1,28 @@
+name: Console.log Checker
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+    branches: [main]
+    paths:
+      - '**.ts'
+      - '**.tsx'
+
+jobs:
+  check-console-log:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Find console.log
+      run: |
+        # Find console.log statements in TypeScript and TypeScript React files
+        if grep -r 'console\.log' ./*.ts*; then
+          echo "console.log statements found"
+          exit 1
+        else
+          echo "No console.log statements found"
+        fi
+        
