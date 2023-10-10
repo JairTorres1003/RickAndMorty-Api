@@ -25,11 +25,11 @@ jobs:
         # Create a variable to store the results
         results=""
 
-        # Encontrar la palabra "console.log" en los archivos modificados
+        # Find the word "console.log" in the modified files
         for file in ${{ steps.changed-files.outputs.modified_files }}; do
           resultGrep=$(grep -n 'console.log' "$file" || true)
           if [ $? -eq 0 ] && [ -n "$resultGrep" ]; then
-            results="${results}\`\`\`js\n// File: $file\n$resultGrep\`\`\`\n\n"
+            results="${results}\`\`\`js\n// File: $file\n$resultGrep\n\`\`\`\n\n"
           fi
         done
 
