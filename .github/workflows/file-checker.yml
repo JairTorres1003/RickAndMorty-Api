@@ -18,19 +18,14 @@ jobs:
     - name: Changed Files
       id: changed-files
       uses: tj-actions/changed-files@v39.2.1
-    
-    - name: List all changed files
-      run: |
-        for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
-          echo "$file was changed"
-        done
-    
+
     - name: Find specific word
       run: |
-        # Encontrar la palabra "console.log" en los archivos modificados
+        # Encontrar la palabra "mi_palabra" en los archivos modificados
         for file in ${{ steps.changed-files.outputs.modified_files }}; do
-          if grep -q 'console.log' "$file"; then
-            echo "Found 'console.log' in $file"
-            # Puedes agregar acciones adicionales aquí si se encuentra la palabra
+          resultGrep=$(grep -n 'mi_palabra' "$file")
+          if [ $? -eq 0 ]; then
+            echo "Found 'mi_palabra' in $file"
+            echo "$resultGrep"
           fi
         done
