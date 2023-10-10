@@ -33,14 +33,16 @@ jobs:
           fi
         done
 
-        # Set the results as an output to use later
-        echo "::set-output name=comment_results::$results"
+        # Store the results in GITHUB_OUTPUT
+        echo "RESULTS=$results" >> "$GITHUB_OUTPUT"
 
     - name: Add Comment Pull
-      if: steps.grep-results.outputs.comment_results != ''
+      env:
+        COMMENTS_RESULTS: ${{ steps.color-selector.outputs.RESULTS }}
+      if: $COMMENTS_RESULTS != ''
       run: |
         # Get the results
-        comment_results="${{ steps.grep-results.outputs.comment_results }}"
+        comment_results="$COMMENTS_RESULTS"
 
         # Build the comment with Markdown format
         comment="### Found \`console.log\` in:\n\n$comment_results"
