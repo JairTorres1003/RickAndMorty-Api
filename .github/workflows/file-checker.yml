@@ -5,8 +5,7 @@ on:
     types: [opened, reopened, synchronize]
     branches: [main]
     paths:
-      - '**.ts'
-      - '**.tsx'
+      - '**/*.ts*'
 
 jobs:
   check-console-log:
