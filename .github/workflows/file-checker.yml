@@ -27,5 +27,7 @@ jobs:
           if [ $? -eq 0 ]; then
             echo "Found 'console.log' in $file"
             echo "$resultGrep"
+          else
+            echo "No 'console.log' found in $file"
           fi
         done
