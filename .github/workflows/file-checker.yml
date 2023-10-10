@@ -39,15 +39,17 @@ jobs:
     - name: Add Comment Pull
       env:
         COMMENTS_RESULTS: ${{ steps.find-specific-word.outputs.RESULTS }}
-      if: $COMMENTS_RESULTS != ''
+      if: steps.find-specific-word.outputs.RESULTS != ''
       run: |
         # Get the results
         comment_results="$COMMENTS_RESULTS"
-
+        echo $comment_results
+    
         # Build the comment with Markdown format
         comment="### Found \`console.log\` in:\n\n$comment_results"
-
+    
         # Agregar el comentario a la solicitud de extracción
         curl -X POST -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
           -d "{\"body\":\"$comment\"}" \
           "https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/comments"
+
