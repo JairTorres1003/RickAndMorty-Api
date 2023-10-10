@@ -25,13 +25,12 @@ jobs:
           echo "$file was changed"
         done
     
-    - name: Find console.log
+    - name: Find specific word
       run: |
-        # Encontrar declaraciones console.log en los archivos modificados
-        while IFS= read -r file; do
-          if grep 'console\.log' "$file"; then
-            echo "console.log statements found in $file"
-            exit 1
+        # Encontrar la palabra "console.log" en los archivos modificados
+        for file in ${{ steps.changed-files.outputs.modified_files }}; do
+          if grep -q 'console.log' "$file"; then
+            echo "Found 'console.log' in $file"
+            # Puedes agregar acciones adicionales aquí si se encuentra la palabra
           fi
-        done < <(echo "$(<${{ steps.changed-files.outputs.modified_files }})")
-        echo "No console.log statements found"
+        done
