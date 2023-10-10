@@ -28,10 +28,10 @@ jobs:
     - name: Find console.log
       run: |
         # Encontrar declaraciones console.log en los archivos modificados
-        for file in ${{ steps.changed-files.outputs.modified_files }}; do
-          if grep -q 'console\.log' "$file"; then
+        while IFS= read -r file; do
+          if grep 'console\.log' "$file"; then
             echo "console.log statements found in $file"
             exit 1
           fi
-        done
+        done < <(echo "$(<${{ steps.changed-files.outputs.modified_files }})")
         echo "No console.log statements found"
