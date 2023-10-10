@@ -101,7 +101,7 @@ export const useFiltersTypes = () => {
 
   return {
     CheckboxFilter,
-    isExpanded, 
+    isExpanded,
     setIsExpanded,
   };
 };
