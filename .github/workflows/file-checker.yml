@@ -4,8 +4,6 @@ on:
   pull_request:
     types: [opened, reopened, synchronize]
     branches: [main]
-    paths:
-      - '**/*.ts*'
 
 jobs:
   check-console-log:
@@ -15,25 +13,25 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
     
-    - name: List files
+    - name: List modified files
       run: |
-        # Lista de archivos .ts y .tsx en el directorio de trabajo
-        find . -name '*.ts' -o -name '*.tsx'
+        # Lista de archivos modificados en la solicitud de extracción
+        git diff --name-only ${{ github.base_ref }}...${{ github.head_ref }} | grep -E '\.tsx?$'
     
-    - name: Show content of files
+    - name: Show content of modified files
       run: |
-        # Mostrar el contenido de los archivos .ts y .tsx
-        for file in $(find . -name '*.ts' -o -name '*.tsx'); do
+        # Mostrar el contenido de los archivos modificados
+        while read -r file; do
           echo "Contents of $file:"
           cat $file
         done
     
     - name: Find console.log
       run: |
-        # Encontrar declaraciones console.log en archivos TypeScript y TypeScript React
-        if find . -name '*.ts' -o -name '*.tsx' -exec grep -q 'console\.log' {} \; ; then
-          echo "console.log statements found"
-          exit 1
-        else
-          echo "No console.log statements found"
-        fi
+        # Encontrar declaraciones console.log en los archivos modificados
+        while read -r file; do
+          if grep -q 'console\.log' "$file"; then
+            echo "console.log statements found in $file"
+            exit 1
+          fi
+        done < modified_files.txt || echo "No console.log statements found"
