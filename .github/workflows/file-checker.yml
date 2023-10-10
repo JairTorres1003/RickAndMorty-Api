@@ -38,7 +38,7 @@ jobs:
 
     - name: Add Comment Pull
       env:
-        COMMENTS_RESULTS: ${{ steps.color-selector.outputs.RESULTS }}
+        COMMENTS_RESULTS: ${{ steps.changed-files.outputs.RESULTS }}
       if: $COMMENTS_RESULTS != ''
       run: |
         # Get the results
