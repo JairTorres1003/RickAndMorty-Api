@@ -21,11 +21,11 @@ jobs:
 
     - name: Find specific word
       run: |
-        # Encontrar la palabra "mi_palabra" en los archivos modificados
+        # Encontrar la palabra "console.log" en los archivos modificados
         for file in ${{ steps.changed-files.outputs.modified_files }}; do
-          resultGrep=$(grep -n 'mi_palabra' "$file")
+          resultGrep=$(grep -n 'console.log' "$file")
           if [ $? -eq 0 ]; then
-            echo "Found 'mi_palabra' in $file"
+            echo "Found 'console.log' in $file"
             echo "$resultGrep"
           fi
         done
