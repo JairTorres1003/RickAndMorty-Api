@@ -12,19 +12,16 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # Configuración para pull_request eventos
     
-    - name: List modified files
-      run: |
-        # Lista de archivos modificados en la solicitud de extracción
-        git diff --name-only HEAD $(curl -sSL https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/merge --header "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}") | grep -E '\.tsx?$'
-    
+    - name: Changed Files
+      uses: tj-actions/changed-files@v39.2.1
+      
     - name: Show content of modified files
       run: |
         # Mostrar el contenido de los archivos modificados
-        while read -r file; do
-          echo "Contents of $file:"
-          cat $file
-        done
+        cat ${{ steps.changed-files.outputs.modified_files }}
     
     - name: Find console.log
       run: |
@@ -34,4 +31,4 @@ jobs:
             echo "console.log statements found in $file"
             exit 1
           fi
-        done < modified_files.txt || echo "No console.log statements found"
+        done < ${{ steps.changed-files.outputs.modified_files }} || echo "No console.log statements found"
