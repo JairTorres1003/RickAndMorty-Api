@@ -13,7 +13,7 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
       with:
-        fetch-depth: 0  # Configuración para pull_request eventos
+        fetch-depth: 0  # Settings for pull_request events
     
     - name: Changed Files
       id: changed-files
@@ -24,7 +24,7 @@ jobs:
         # Encontrar la palabra "console.log" en los archivos modificados
         for file in ${{ steps.changed-files.outputs.modified_files }}; do
           resultGrep=$(grep -n 'console.log' "$file" || true)
-          if [ $? -eq 0 ]; then
+          if [ $? -eq 0 ] && [ -n "$resultGrep" ]; then
             echo "Found 'console.log' in $file"
             echo "$resultGrep"
           fi
