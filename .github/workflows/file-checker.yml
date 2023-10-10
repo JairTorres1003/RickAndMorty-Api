@@ -15,9 +15,22 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
     
+    - name: List files
+      run: |
+        # Lista de archivos .ts y .tsx en el directorio de trabajo
+        find . -name '*.ts' -o -name '*.tsx'
+    
+    - name: Show content of files
+      run: |
+        # Mostrar el contenido de los archivos .ts y .tsx
+        for file in $(find . -name '*.ts' -o -name '*.tsx'); do
+          echo "Contents of $file:"
+          cat $file
+        done
+    
     - name: Find console.log
       run: |
-        # Find console.log statements in TypeScript and TypeScript React files
+        # Encontrar declaraciones console.log en archivos TypeScript y TypeScript React
         if find . -name '*.ts' -o -name '*.tsx' -exec grep -q 'console\.log' {} \; ; then
           echo "console.log statements found"
           exit 1
