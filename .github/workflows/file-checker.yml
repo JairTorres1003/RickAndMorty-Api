@@ -19,19 +19,19 @@ jobs:
       id: changed-files
       uses: tj-actions/changed-files@v39.2.1
     
-    - name: Show content of modified files
+    - name: List all changed files
       run: |
-        # Mostrar el contenido de los archivos modificados
-        cat ${{ steps.changed-files.outputs.modified_files }}
+        for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+          echo "$file was changed"
+        done
     
     - name: Find console.log
       run: |
         # Encontrar declaraciones console.log en los archivos modificados
-        while IFS= read -r file; do
+        for file in ${{ steps.changed-files.outputs.modified_files }}; do
           if grep -q 'console\.log' "$file"; then
             echo "console.log statements found in $file"
             exit 1
           fi
-        done < <(echo "$(<${{ steps.changed-files.outputs.modified_files }})")
+        done
         echo "No console.log statements found"
-
