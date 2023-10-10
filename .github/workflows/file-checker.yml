@@ -20,7 +20,7 @@ jobs:
       uses: tj-actions/changed-files@v39.2.1
 
     - name: Find specific word
-      id: grep-results
+      id: find-specific-word
       run: |
         # Create a variable to store the results
         results=""
@@ -38,7 +38,7 @@ jobs:
 
     - name: Add Comment Pull
       env:
-        COMMENTS_RESULTS: ${{ steps.changed-files.outputs.RESULTS }}
+        COMMENTS_RESULTS: ${{ steps.find-specific-word.outputs.RESULTS }}
       if: $COMMENTS_RESULTS != ''
       run: |
         # Get the results
