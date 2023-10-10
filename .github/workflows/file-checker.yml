@@ -16,8 +16,9 @@ jobs:
         fetch-depth: 0  # Configuración para pull_request eventos
     
     - name: Changed Files
+      id: changed-files
       uses: tj-actions/changed-files@v39.2.1
-      
+    
     - name: Show content of modified files
       run: |
         # Mostrar el contenido de los archivos modificados
