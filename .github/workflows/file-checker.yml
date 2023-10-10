@@ -14,18 +14,38 @@ jobs:
       uses: actions/checkout@v4
       with:
         fetch-depth: 0  # Settings for pull_request events
-    
+
     - name: Changed Files
       id: changed-files
       uses: tj-actions/changed-files@v39.2.1
 
     - name: Find specific word
+      id: grep-results
       run: |
+        # Create a variable to store the results
+        results=""
+
         # Encontrar la palabra "console.log" en los archivos modificados
         for file in ${{ steps.changed-files.outputs.modified_files }}; do
           resultGrep=$(grep -n 'console.log' "$file" || true)
           if [ $? -eq 0 ] && [ -n "$resultGrep" ]; then
-            echo "Found 'console.log' in $file"
-            echo "$resultGrep"
+            results="${results}\`\`\`js\n// File: $file\n$resultGrep\`\`\`\n\n"
           fi
         done
+
+        # Set the results as an output to use later
+        echo "::set-output name=comment_results::$results"
+
+    - name: Add Comment Pull
+      if: steps.grep-results.outputs.comment_results != ''
+      run: |
+        # Get the results
+        comment_results="${{ steps.grep-results.outputs.comment_results }}"
+
+        # Build the comment with Markdown format
+        comment="### Found \`console.log\` in:\n\n$comment_results"
+
+        # Agregar el comentario a la solicitud de extracción
+        curl -X POST -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+          -d "{\"body\":\"$comment\"}" \
+          "https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/comments"
