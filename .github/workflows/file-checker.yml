@@ -46,9 +46,10 @@ jobs:
     
         # Build the comment with Markdown format
         comment="### Found \`console.log\` in:\n\n$comment_results"
+        echo "$comment"
     
-        # Agregar el comentario a la solicitud de extracción
+        # Add the comment to the pull request
         curl -X POST -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
           -d "{\"body\":\"$comment\"}" \
-          "https://api.github.com/repos/${{ github.repository }}/pull/${{ github.event.pull_request.number }}/comments"
+          "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments"
 
