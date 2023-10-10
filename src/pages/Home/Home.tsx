@@ -13,6 +13,7 @@ import { Link } from "react-router-dom";
 
 const Home: FunctionComponent = () => {
   const { currentPage, infoType, loading, resultCards } = useHome();
+  console.log(currentPage);
 
   return (
     <DivMain>

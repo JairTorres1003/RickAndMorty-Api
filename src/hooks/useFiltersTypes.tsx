@@ -58,7 +58,7 @@ export const useFiltersTypes = () => {
 
     const query = new URLSearchParams(location.search);
     query.delete("page");
-
+    console.log(query);
     if (active === isChecked[filter]) {
       // If the active value is the same as the current filter value, remove the filter from the query
       active = "";
@@ -101,7 +101,7 @@ export const useFiltersTypes = () => {
 
   return {
     CheckboxFilter,
-    isExpanded, 
+    isExpanded,
     setIsExpanded,
   };
 };
