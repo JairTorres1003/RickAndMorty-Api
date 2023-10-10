@@ -16,7 +16,7 @@ jobs:
     - name: List modified files
       run: |
         # Lista de archivos modificados en la solicitud de extracción
-        git diff --name-only ${{ github.base_ref }}...${{ github.head_ref }} | grep -E '\.tsx?$'
+        git diff --name-only HEAD $(curl -sSL https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/merge --header "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}") | grep -E '\.tsx?$'
     
     - name: Show content of modified files
       run: |
