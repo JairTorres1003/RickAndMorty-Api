@@ -67,7 +67,7 @@ export const useFiltersTypes = () => {
       // If the active value is different, set the filter value in the query
       query.set(filter, active);
     }
-
+console.log('Hello word');
     // Navigate to the updated query string or the home page if the query is empty
     navigate(query.toString() !== "" ? `?${query.toString()}` : "/");
   }
