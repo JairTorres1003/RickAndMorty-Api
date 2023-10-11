@@ -30,8 +30,13 @@ jobs:
           resultGrep=$(grep -n 'console.log' "$file" || true)
           if [ $? -eq 0 ] && [ -n "$resultGrep" ]; then
             # Escape single quotes in results
+            echo "${results}" >> $GITHUB_STEP_SUMMARY
+            echo "\`\`\`js\n" >> $GITHUB_STEP_SUMMARY
+            echo "// File: $file\n" >> $GITHUB_STEP_SUMMARY
+            
             resultGrep="${resultGrep//\'/\'\'\"}"
-            results="${results}\`\`\`js\n// File: $file\n$resultGrep\n\`\`\`\n"
+            
+            echo "\n\`\`\`\n\n" >> $GITHUB_STEP_SUMMARY
           fi
         done
 
