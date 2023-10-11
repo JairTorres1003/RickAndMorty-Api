@@ -29,7 +29,9 @@ jobs:
         for file in ${{ steps.changed-files.outputs.modified_files }}; do
           resultGrep=$(grep -n 'console.log' "$file" || true)
           if [ $? -eq 0 ] && [ -n "$resultGrep" ]; then
-            results="${results}\`\`\`js\n// File: $file\n$resultGrep\n\`\`\`\n\n"
+            # Escape single quotes in results
+            resultGrep="${resultGrep//\'/\'\'"
+            results="${results}\`\`\`js\n// File: $file\n$resultGrep\`\`\`\n\n"
           fi
         done
 
