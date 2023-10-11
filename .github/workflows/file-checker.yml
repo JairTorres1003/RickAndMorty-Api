@@ -24,6 +24,7 @@ jobs:
       run: |
         # Create flag variable
         results=false
+        echo "### Found \`console.log\` in:" >> $GITHUB_STEP_SUMMARY
 
         # Find the word "console.log" in the modified files
         for file in ${{ steps.changed-files.outputs.modified_files }}; do
@@ -32,10 +33,7 @@ jobs:
             # Escape single quotes in results
             echo "  \`\`\`js" >> $GITHUB_STEP_SUMMARY
             echo "  // File: $file" >> $GITHUB_STEP_SUMMARY
-            
-            # Escape single quotes in resultGrep
-            echo $resultGrep >> $GITHUB_STEP_SUMMARY
-                
+            echo "$resultGrep" >> $GITHUB_STEP_SUMMARY
             echo "  \`\`\`" >> $GITHUB_STEP_SUMMARY
             echo "" >> $GITHUB_STEP_SUMMARY
 
@@ -45,17 +43,16 @@ jobs:
 
         # Store the results in GITHUB_OUTPUT
         echo "RESULTS=$GITHUB_STEP_SUMMARY" >> "$GITHUB_OUTPUT"
+        echo "FOUND=$results" >> "$GITHUB_OUTPUT"
 
     - name: Add Comment Pull
       env:
         COMMENTS_RESULTS: ${{ steps.find-specific-word.outputs.RESULTS }}
-      if: steps.find-specific-word.outputs.RESULTS != ''
+        FOUND_CONSOLE: ${{ steps.find-specific-word.outputs.FOUND }}
+      if: steps.find-specific-word.outputs.FOUND
       run: |
         # Get the results
-        comment_results=$(cat "$COMMENTS_RESULTS")
-    
-        # Build the comment with Markdown format
-        comment="### Found \`console.log\` in:\n\n$comment_results"
+        comment=$(cat "$COMMENTS_RESULTS")
         echo "$comment"
     
         # Add the comment to the pull request
