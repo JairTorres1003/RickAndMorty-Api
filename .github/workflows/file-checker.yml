@@ -31,22 +31,25 @@ jobs:
           if [ $? -eq 0 ] && [ -n "$resultGrep" ]; then
             # Escape single quotes in results
             echo "${results}" >> $GITHUB_STEP_SUMMARY
-            echo "\`\`\`js\n" >> $GITHUB_STEP_SUMMARY
-            echo "// File: $file\n" >> $GITHUB_STEP_SUMMARY
+            echo "  \`\`\`js" >> $GITHUB_STEP_SUMMARY
+            echo "  // File: $file" >> $GITHUB_STEP_SUMMARY
             
+            # Escape single quotes in resultGrep
             resultGrep="${resultGrep//\'/\'\'\"}"
-            
-            echo "\n\`\`\`\n\n" >> $GITHUB_STEP_SUMMARY
+            echo "$resultGrep" >> $GITHUB_STEP_SUMMARY
+                
+            echo "  \`\`\`" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
           fi
         done
 
         # Store the results in GITHUB_OUTPUT
-        # echo "RESULTS=$results" >> "$GITHUB_OUTPUT"
+        # echo "RESULTS=$GITHUB_STEP_SUMMARY" >> "$GITHUB_OUTPUT"
 
     - name: Add Comment Pull
       env:
-        COMMENTS_RESULTS: ${{ steps.find-specific-word.outputs.GITHUB_STEP_SUMMARY }}
-      if: steps.find-specific-word.outputs.GITHUB_STEP_SUMMARY != ''
+        COMMENTS_RESULTS: ${{ steps.find-specific-word.outputs.RESULTS }}
+      if: steps.find-specific-word.outputs.RESULTS != ''
       run: |
         # Get the results
         comment_results="$COMMENTS_RESULTS"
