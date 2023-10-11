@@ -22,24 +22,24 @@ jobs:
     - name: Find specific word
       id: find-specific-word
       run: |
-        # Create a variable to store the results
-        results=""
+        # Create flag variable
+        results=false
 
         # Find the word "console.log" in the modified files
         for file in ${{ steps.changed-files.outputs.modified_files }}; do
           resultGrep=$(grep -n 'console.log' "$file" || true)
           if [ $? -eq 0 ] && [ -n "$resultGrep" ]; then
             # Escape single quotes in results
-            echo "${results}" >> $GITHUB_STEP_SUMMARY
             echo "  \`\`\`js" >> $GITHUB_STEP_SUMMARY
             echo "  // File: $file" >> $GITHUB_STEP_SUMMARY
             
             # Escape single quotes in resultGrep
-            resultGrep="${resultGrep//\'/\'\'\"}"
-            echo "$resultGrep" >> $GITHUB_STEP_SUMMARY
+            echo $resultGrep >> $GITHUB_STEP_SUMMARY
                 
             echo "  \`\`\`" >> $GITHUB_STEP_SUMMARY
             echo "" >> $GITHUB_STEP_SUMMARY
+
+            results=true
           fi
         done
 
