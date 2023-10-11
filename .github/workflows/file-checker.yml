@@ -23,7 +23,7 @@ jobs:
       id: find-specific-word
       run: |
         # Create flag variable
-        results=false
+        results=""
         echo "### Found \`console.log\` in:" >> $GITHUB_STEP_SUMMARY
 
         # Find the word "console.log" in the modified files
@@ -37,7 +37,7 @@ jobs:
             echo "  \`\`\`" >> $GITHUB_STEP_SUMMARY
             echo "" >> $GITHUB_STEP_SUMMARY
 
-            results=true
+            results="${results}$file/n"
           fi
         done
 
@@ -49,7 +49,7 @@ jobs:
       env:
         COMMENTS_RESULTS: ${{ steps.find-specific-word.outputs.RESULTS }}
         FOUND_CONSOLE: ${{ steps.find-specific-word.outputs.FOUND }}
-      if: steps.find-specific-word.outputs.FOUND == true
+      if: steps.find-specific-word.outputs.FOUND != ''
       run: |
         # Get the comment content
         comment=$(cat "$COMMENTS_RESULTS")
