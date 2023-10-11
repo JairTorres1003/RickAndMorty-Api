@@ -30,8 +30,8 @@ jobs:
           resultGrep=$(grep -n 'console.log' "$file" || true)
           if [ $? -eq 0 ] && [ -n "$resultGrep" ]; then
             # Escape single quotes in results
-            resultGrep="${resultGrep//\'/\'\'\\n}"
-            results="${results}\`\`\`js\n// File: $file\n$resultGrep\`\`\`\n\n"
+            resultGrep="${resultGrep//\'/\'\'\}"
+            results="${results}\`\`\`js\n// File: $file\n$resultGrep\n\`\`\`\n\n"
           fi
         done
 
