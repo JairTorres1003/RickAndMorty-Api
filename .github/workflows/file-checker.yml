@@ -31,7 +31,7 @@ jobs:
           if [ $? -eq 0 ] && [ -n "$resultGrep" ]; then
             # Escape single quotes in results
             resultGrep="${resultGrep//\'/\'\'\"}"
-            results="${results}\`\`\`js\n// File: $file\n$resultGrep\n\n\`\`\`\n\n"
+            results="${results}\`\`\`js\n// File: $file\n$resultGrep\n\`\`\`\n"
           fi
         done
 
