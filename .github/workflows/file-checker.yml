@@ -41,12 +41,12 @@ jobs:
         done
 
         # Store the results in GITHUB_OUTPUT
-        echo "RESULTS=$results" >> "$GITHUB_OUTPUT"
+        # echo "RESULTS=$results" >> "$GITHUB_OUTPUT"
 
     - name: Add Comment Pull
       env:
-        COMMENTS_RESULTS: ${{ steps.find-specific-word.outputs.RESULTS }}
-      if: steps.find-specific-word.outputs.RESULTS != ''
+        COMMENTS_RESULTS: ${{ steps.find-specific-word.outputs.GITHUB_STEP_SUMMARY }}
+      if: steps.find-specific-word.outputs.GITHUB_STEP_SUMMARY != ''
       run: |
         # Get the results
         comment_results="$COMMENTS_RESULTS"
