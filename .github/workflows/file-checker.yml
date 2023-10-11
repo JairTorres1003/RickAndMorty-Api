@@ -44,7 +44,6 @@ jobs:
         done
 
         # Store the results in GITHUB_OUTPUT
-        echo "$GITHUB_STEP_SUMMARY"
         echo "RESULTS=$GITHUB_STEP_SUMMARY" >> "$GITHUB_OUTPUT"
 
     - name: Add Comment Pull
@@ -53,7 +52,7 @@ jobs:
       if: steps.find-specific-word.outputs.RESULTS != ''
       run: |
         # Get the results
-        comment_results="$COMMENTS_RESULTS"
+        comment_results=$(cat "$COMMENTS_RESULTS")
     
         # Build the comment with Markdown format
         comment="### Found \`console.log\` in:\n\n$comment_results"
