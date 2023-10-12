@@ -54,6 +54,12 @@ jobs:
         # Get the comment content
         comment=$(cat "$COMMENTS_RESULTS")
         echo "$comment"
+
+        # Define a custom error message
+        error_message="Instances of 'console.log' were found in the code."
+
+        # Print the error message
+        echo "$error_message"
         
         # Use jq to format the comment as JSON
         comment_json=$(jq -n --arg body "$comment" '{"body": $body'})
